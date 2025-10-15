@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Analytics - TerraGreen Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'terragreen': {
+                            50: '#f0f9f4',
+                            100: '#dcf2e3',
+                            200: '#bce5ca',
+                            300: '#8dd2a6',
+                            400: '#57b87e',
+                            500: '#339d63',
+                            600: '#25804f',
+                            700: '#1e6641',
+                            800: '#1a5135',
+                            900: '#16422d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar bg-white dark:bg-gray-800 w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-terragreen-500 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white">TerraGreen Tracker</h1>
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i class="fas fa-home mr-3"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="imageaAnalytics.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i class="fas fa-image mr-3"></i>
+                            <span>Image Analytics</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="environmentAnalytics.html" class="flex items-center p-3 bg-terragreen-50 dark:bg-gray-700 text-terragreen-600 dark:text-terragreen-400 rounded-lg">
+                            <i class="fas fa-chart-bar mr-3"></i>
+                            <span>Environment Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <i class="fas fa-robot mr-3"></i>
+                            <span>Support Chat</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold mb-3 px-3">Account</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <i class="fas fa-sign-out-alt mr-3"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 flex items-center justify-between">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-600 dark:text-gray-300 mr-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Environment Analytics</h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    </button>
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">S</div>
+                        <span class="text-gray-700 dark:text-gray-300 user-name">Soham</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
+                        🌿 Reforestation Predictor
+                    </h1>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">Enter environmental parameters to predict the level of Reforestation risk.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Form Section -->
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <form id="prediction-form" action="/predict" method="POST">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Soil Moisture</label>
+                                    <input type="number" step="any" name="soil_moisture" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Soil Type</label>
+                                    <select name="soil_type" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                        <option value="clay">Clay</option>
+                                        <option value="sandy">Sandy</option>
+                                        <option value="loamy">Loamy</option>
+                                        <option value="peaty">Peaty</option>
+                                        <option value="saline">Saline</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Soil Fertility</label>
+                                    <input type="number" step="any" name="soil_fertility" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Soil pH</label>
+                                    <input type="number" step="any" name="soil_ph" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nutrient Level</label>
+                                    <input type="number" step="any" name="nutrient_level" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rainfall (mm)</label>
+                                    <input type="number" step="any" name="rainfall" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Temperature (°C)</label>
+                                    <input type="number" step="any" name="temperature" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Humidity (%)</label>
+                                    <input type="number" step="any" name="humidity" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                                <div class="md:col-span-2">
+                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Wind Speed (km/h)</label>
+                                     <input type="number" step="any" name="wind_speed" required class="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-terragreen-500 outline-none">
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <button type="submit" id="predict-button" class="w-full py-3 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-xl font-medium flex items-center justify-center">
+                                    Predict Reforestation Level
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Result Section -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center text-center">
+                        <div id="result-placeholder">
+                             <i class="fas fa-chart-pie text-6xl text-gray-300 dark:text-gray-600 mb-4"></i>
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Awaiting Prediction</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mt-2">Enter environmental values and click 'Predict' to see the result.</p>
+                        </div>
+                        <div id="result-card" class="hidden">
+                             <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">Prediction Result</h3>
+                             <p id="prediction-text" class="text-4xl font-bold"></p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM Elements ---
+            const elements = {
+                sidebar: document.querySelector('.sidebar'),
+                sidebarToggle: document.getElementById('sidebar-toggle'),
+                darkModeToggle: document.getElementById('dark-mode-toggle'),
+                darkModeIcon: document.getElementById('dark-mode-icon'),
+                predictionForm: document.getElementById('prediction-form'),
+                predictButton: document.getElementById('predict-button'),
+                resultPlaceholder: document.getElementById('result-placeholder'),
+                resultCard: document.getElementById('result-card'),
+                predictionText: document.getElementById('prediction-text'),
+            };
+
+            // --- Basic UI Setup ---
+            elements.sidebarToggle.addEventListener('click', () => elements.sidebar.classList.toggle('open'));
+
+            function setDarkMode(isDark) {
+                document.documentElement.classList.toggle('dark', isDark);
+                localStorage.theme = isDark ? 'dark' : 'light';
+                elements.darkModeIcon.classList.toggle('fa-moon', !isDark);
+                elements.darkModeIcon.classList.toggle('fa-sun', isDark);
+            }
+            elements.darkModeToggle.addEventListener('click', () => setDarkMode(!document.documentElement.classList.contains('dark')));
+            setDarkMode(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+            // --- Authentication & User Info ---
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.querySelector('.user-initials').textContent = initials;
+                document.querySelector('.user-name').textContent = userName;
+            }
+            document.querySelector('.logout-button').addEventListener('click', e => {
+                e.preventDefault();
+                ['isLoggedIn', 'userEmail', 'userName'].forEach(item => localStorage.removeItem(item));
+                window.location.href = 'login.html';
+            });
+
+            // --- Prediction Logic ---
+            elements.predictionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                elements.predictButton.textContent = 'Predicting...';
+                elements.predictButton.disabled = true;
+
+                // Simulate backend call
+                setTimeout(() => {
+                    const results = [
+                        { text: 'Low Risk', color: 'text-green-500 dark:text-green-400' },
+                        { text: 'Medium Risk', color: 'text-yellow-500 dark:text-yellow-400' },
+                        { text: 'High Risk', color: 'text-red-500 dark:text-red-400' }
+                    ];
+                    const randomResult = results[Math.floor(Math.random() * results.length)];
+
+                    elements.predictionText.textContent = randomResult.text;
+                    elements.predictionText.className = `text-4xl font-bold ${randomResult.color}`;
+                    
+                    elements.resultPlaceholder.classList.add('hidden');
+                    elements.resultCard.classList.remove('hidden');
+
+                    elements.predictButton.textContent = 'Predict Reforestation Level';
+                    elements.predictButton.disabled = false;
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

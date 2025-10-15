@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TerraGreen Tracker</title>
+    <title>Image Analytics - TerraGreen Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -50,10 +50,7 @@
             position: absolute;
             z-index: -1;
         }
-        .file-input-label {
-            transition: all 0.3s ease;
-        }
-        .camera-preview {
+        .file-input-label, .camera-preview, .flash {
             transition: all 0.3s ease;
         }
         .flash {
@@ -85,7 +82,6 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="sidebar bg-white dark:bg-gray-800 w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
             <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
@@ -99,25 +95,23 @@
             <nav class="p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="index.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                             <i class="fas fa-home mr-3"></i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
+                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    
                     <li>
-                        <a href="imageaAnalytics.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
-                            <i class="fas fa-chart-bar mr-3"></i>
+                        <a href="imageAnalysis.html" class="flex items-center p-3 bg-terragreen-50 dark:bg-gray-700 text-terragreen-600 dark:text-terragreen-400 rounded-lg">
+                            <i class="fas fa-image mr-3"></i>
                             <span>Image Analytics</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="environmentAnalytics.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-chart-bar mr-3"></i>
@@ -125,7 +119,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
+                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                             <i class="fas fa-robot mr-3"></i>
                             <span>Support Chat</span>
                         </a>
@@ -135,11 +129,10 @@
                 <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <h3 class="text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold mb-3 px-3">Account</h3>
                     <ul class="space-y-2">
-                        
                         <li>
-                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
+                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                                 <i class="fas fa-sign-out-alt mr-3"></i>
-                                
+                                <span>Logout</span>
                             </a>
                         </li>
                     </ul>
@@ -147,160 +140,95 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden md:ml-0">
-            <!-- Top Bar -->
+        <div class="flex-1 flex flex-col overflow-hidden">
             <header class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 flex items-center justify-between">
                 <div class="flex items-center">
                     <button id="sidebar-toggle" class="md:hidden text-gray-600 dark:text-gray-300 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Analytics</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Image Analytics</h2>
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <!-- Dark Mode Toggle -->
                     <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                         <i class="fas fa-moon" id="dark-mode-icon"></i>
                     </button>
-                    
-                    <div class="relative">
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
-                            <i class="fas fa-bell text-xl"></i>
-                        </button>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                    </div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">
-                            S
-                        </div>
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">S</div>
                         <span class="text-gray-700 dark:text-gray-300 user-name">Soham</span>
                     </div>
                 </div>
             </header>
             
-            <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto p-6">
-                <!-- Header Section -->
                 <div class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
-                        <i class="fas fa-tree text-terragreen-500 mr-3"></i> Reforestation Detection
+                        🌲 Reforestation Detection
                     </h1>
-                    <p class="mt-2 text-gray-600 dark:text-gray-400">Upload an image or capture one using your camera to detect reforestation</p>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">Upload an image or capture one using your camera to detect Reforestation.</p>
                 </div>
 
-                <!-- Content Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Upload Section -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                            <i class="fas fa-cloud-upload-alt text-terragreen-500 mr-2"></i> Upload Image
-                        </h2>
-                        
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">📁 Upload Image</h2>
                         <form action="/predict" method="post" enctype="multipart/form-data" id="uploadForm">
-                            <div class="file-input-wrapper mb-4">
-                                <input type="file" name="image" accept="image/*" id="fileInput" class="file-input" required>
-                                <label for="fileInput" class="file-input-label block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-terragreen-500 dark:hover:border-terragreen-400 transition-colors">
-                                    <i class="fas fa-file-image text-4xl text-gray-400 dark:text-gray-500 mb-3"></i>
-                                    <span class="block text-gray-700 dark:text-gray-300 font-medium" id="fileName">Choose an image file</span>
-                                    <small class="text-gray-500 dark:text-gray-400">JPG, PNG, or WebP formats supported</small>
-                                </label>
-                            </div>
-                            <button type="submit" class="btn w-full py-3 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center" id="uploadBtn">
-                                <i class="fas fa-search mr-2"></i> Analyze Image
+                            <input type="file" name="image" accept="image/*" id="fileInput" class="file-input" required>
+                            <label for="fileInput" class="file-input-label block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-terragreen-500">
+                                <i class="fas fa-file-image text-4xl text-gray-400 dark:text-gray-500 mb-3"></i>
+                                <span class="block text-gray-700 dark:text-gray-300 font-medium" id="fileName">Choose an image file</span>
+                            </label>
+                            <button type="submit" class="w-full mt-4 py-3 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-xl font-medium flex items-center justify-center" id="uploadBtn">
+                                🔍 Analyze Image
                             </button>
                         </form>
                     </div>
 
-                    <!-- Camera Section -->
                     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                            <i class="fas fa-camera text-terragreen-500 mr-2"></i> Capture Image
-                        </h2>
-                        
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">📷 Capture Image</h2>
                         <div class="camera-preview bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden mb-4 relative" id="cameraContainer">
-                            <video id="camera" autoplay playsinline class="w-full h-64 object-cover"></video>
-                            <div id="cameraError" class="hidden absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                                <i class="fas fa-exclamation-triangle text-3xl text-yellow-500 mb-2"></i>
-                                <p class="text-gray-700 dark:text-gray-300">Camera access is required to capture images. Please allow camera permissions and refresh the page.</p>
-                            </div>
+                            <video id="camera" autoplay playsinline class="w-full h-48 object-cover"></video>
+                            <div id="cameraError" class="hidden absolute inset-0 flex items-center justify-center p-4 text-center text-gray-700 dark:text-gray-300"></div>
                         </div>
-                        
-                        <div class="flex justify-center mb-4">
-                            <button id="captureBtn" class="w-16 h-16 rounded-full bg-terragreen-500 hover:bg-terragreen-600 text-white flex items-center justify-center transition-colors shadow-lg">
-                                <i class="fas fa-camera text-xl"></i>
-                            </button>
+                        <div class="flex justify-center">
+                            <button id="captureBtn" class="w-full py-3 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-xl font-medium">Capture & Predict</button>
                         </div>
-                        
                         <canvas id="canvas" class="hidden"></canvas>
-                        
                         <form id="cameraForm" action="/predict" method="post" enctype="multipart/form-data" class="hidden">
                             <input type="file" id="capturedImage" name="image">
                         </form>
                     </div>
                 </div>
 
-                <!-- Result Section -->
-                <div id="resultSection" class="hidden mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Analysis Result</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Uploaded Image</h3>
-                            <img id="resultImage" src="" alt="Uploaded Image" class="w-full rounded-lg shadow-sm">
+                <div id="resultSection" class="hidden mt-8">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Analysis Result</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                            <img id="resultImage" src="" alt="Uploaded Image" class="w-full rounded-lg shadow-sm mb-4">
+                            <div id="predictionText" class="text-lg font-medium text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
                         </div>
-                        
-                        <div>
-                            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Analysis</h3>
-                            <div id="predictionText" class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-800 dark:text-gray-200">
-                                <!-- Prediction result will appear here -->
-                            </div>
-                            
-                            <div class="mt-4">
-                                <h4 class="font-medium text-gray-800 dark:text-white mb-2">Confidence Level</h4>
-                                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4">
-                                    <div id="confidenceBar" class="bg-terragreen-500 h-4 rounded-full" style="width: 0%"></div>
-                                </div>
-                                <div class="flex justify-between mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                    <span>0%</span>
-                                    <span id="confidenceValue">0%</span>
-                                    <span>100%</span>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6">
-                                <button id="newAnalysisBtn" class="py-2 px-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-colors">
-                                    <i class="fas fa-redo mr-2"></i> New Analysis
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- History Section -->
-                <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Recent Analyses</h2>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full">
-                            <thead>
-                                <tr class="border-b border-gray-200 dark:border-gray-700">
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Image</th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Result</th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Confidence</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historyTableBody">
-                                <!-- History data will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="mt-4 text-center">
-                        <button id="loadMoreBtn" class="py-2 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-lg font-medium transition-colors">
-                            Load More
-                        </button>
+                        <div class="space-y-6">
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">🚨 Reforestation Alert</h3>
+                                <p id="alertArea" class="text-4xl font-bold text-red-500 dark:text-red-400">+{{ area or 0 }} ha</p>
+                                <p class="text-gray-600 dark:text-gray-400 mt-1">Risk Level: <span id="alertRisk" class="font-medium text-yellow-600 dark:text-yellow-400">{{ risk or "N/A" }}</span></p>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">🌿 NDVI (Vegetation Index)</h3>
+                                <div id="ndviValues" class="space-y-2 text-gray-700 dark:text-gray-300">
+                                    <div class="flex justify-between"><span>Current:</span> <span class="font-medium text-terragreen-600 dark:text-terragreen-400">{{ ndvi.current if ndvi else '0.00' }}</span></div>
+                                    <div class="flex justify-between"><span>Last Month:</span> <span class="font-medium">{{ ndvi.last_month if ndvi else '0.00' }}</span></div>
+                                    <div class="flex justify-between"><span>Last Year:</span> <span class="font-medium">{{ ndvi.last_year if ndvi else '0.00' }}</span></div>
+                                </div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">🛰 Satellite Data</h3>
+                                <div class="space-y-2 text-gray-700 dark:text-gray-300">
+                                    <p>Satellite: <span class="font-medium">{{ satellite.satellite if satellite else "N/A" }}</span></p>
+                                    <p>Coordinate: <span class="font-medium">{{ satellite.coordinate if satellite else "N/A" }}</span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -308,290 +236,142 @@
     </div>
 
     <script>
-        // Mobile sidebar toggle
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
-        });
-
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const darkModeIcon = document.getElementById('dark-mode-icon');
-        
-        // Check for saved theme preference or respect OS preference
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            darkModeIcon.classList.remove('fa-moon');
-            darkModeIcon.classList.add('fa-sun');
-        } else {
-            document.documentElement.classList.remove('dark');
-            darkModeIcon.classList.remove('fa-sun');
-            darkModeIcon.classList.add('fa-moon');
-        }
-        
-        darkModeToggle.addEventListener('click', function() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-                darkModeIcon.classList.remove('fa-sun');
-                darkModeIcon.classList.add('fa-moon');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-                darkModeIcon.classList.remove('fa-moon');
-                darkModeIcon.classList.add('fa-sun');
-            }
-        });
-
-        // DOM Elements
-        const video = document.getElementById('camera');
-        const canvas = document.getElementById('canvas');
-        const captureBtn = document.getElementById('captureBtn');
-        const cameraForm = document.getElementById('cameraForm');
-        const capturedImageInput = document.getElementById('capturedImage');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const uploadForm = document.getElementById('uploadForm');
-        const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
-        const resultSection = document.getElementById('resultSection');
-        const resultImage = document.getElementById('resultImage');
-        const predictionText = document.getElementById('predictionText');
-        const confidenceBar = document.getElementById('confidenceBar');
-        const confidenceValue = document.getElementById('confidenceValue');
-        const newAnalysisBtn = document.getElementById('newAnalysisBtn');
-        const historyTableBody = document.getElementById('historyTableBody');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const cameraContainer = document.getElementById('cameraContainer');
-        const cameraError = document.getElementById('cameraError');
-
-        // Access camera
-        function initializeCamera() {
-            if (navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(stream => { 
-                        video.srcObject = stream; 
-                        cameraError.classList.add('hidden');
-                    })
-                    .catch(err => { 
-                        console.error("Camera access denied:", err);
-                        cameraError.classList.remove('hidden');
-                    });
-            } else {
-                cameraError.classList.remove('hidden');
-                cameraError.innerHTML = `
-                    <i class="fas fa-exclamation-triangle text-3xl text-yellow-500 mb-2"></i>
-                    <p class="text-gray-700 dark:text-gray-300">Your browser doesn't support camera access.</p>
-                `;
-            }
-        }
-
-        // Capture image from camera
-        captureBtn.addEventListener('click', () => {
-            const context = canvas.getContext('2d');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            // Create a flash effect
-            const flash = document.createElement('div');
-            flash.className = 'flash absolute inset-0 bg-white opacity-0';
-            cameraContainer.appendChild(flash);
-            setTimeout(() => {
-                cameraContainer.removeChild(flash);
-            }, 300);
-
-            // Convert canvas to blob and submit form
-            canvas.toBlob(blob => {
-                const file = new File([blob], "captured.jpg", { type: "image/jpeg" });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                capturedImageInput.files = dataTransfer.files;
-                
-                // Show loading state
-                captureBtn.innerHTML = '<div class="loader"></div>';
-                captureBtn.disabled = true;
-                
-                // Simulate analysis (in a real app, this would submit to the backend)
-                setTimeout(() => {
-                    simulateAnalysis(file, true);
-                }, 1500);
-            }, 'image/jpeg');
-        });
-
-        // Handle file input change
-        fileInput.addEventListener('change', function() {
-            if (this.files.length > 0) {
-                const file = this.files[0];
-                fileName.textContent = file.name;
-                
-                // Preview image
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // In a real app, you might show a preview here
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Handle form submission
-        uploadForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (fileInput.files.length === 0) {
-                alert('Please select an image file first.');
-                return;
-            }
-            
-            // Show loading state
-            uploadBtn.innerHTML = '<div class="loader"></div> Analyzing...';
-            uploadBtn.disabled = true;
-            
-            // Simulate analysis (in a real app, this would submit to the backend)
-            setTimeout(() => {
-                simulateAnalysis(fileInput.files[0], false);
-            }, 1500);
-        });
-
-        // Simulate analysis results (for demo purposes)
-        function simulateAnalysis(file, fromCamera) {
-            // Reset buttons
-            uploadBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Analyze Image';
-            uploadBtn.disabled = false;
-            captureBtn.innerHTML = '<i class="fas fa-camera"></i>';
-            captureBtn.disabled = false;
-            
-            // Show result section
-            resultSection.classList.remove('hidden');
-            
-            // Display the image
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                resultImage.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            
-            // Generate random results for demo
-            const isReforestation = Math.random() > 0.5;
-            const confidence = Math.floor(Math.random() * 30) + 70; // 70-100%
-            
-            if (isReforestation) {
-                predictionText.innerHTML = `
-                    <div class="flex items-center text-red-600 dark:text-red-400">
-                        <i class="fas fa-exclamation-triangle mr-2"></i>
-                        <span class="font-medium">Reforestation Detected</span>
-                    </div>
-                    <p class="mt-2">Our analysis indicates signs of Reforestation in this area with ${confidence}% confidence. The image shows reduced forest cover and potential land degradation.</p>
-                `;
-            } else {
-                predictionText.innerHTML = `
-                    <div class="flex items-center text-green-600 dark:text-green-400">
-                        <i class="fas fa-check-circle mr-2"></i>
-                        <span class="font-medium">No Reforestation Detected</span>
-                    </div>
-                    <p class="mt-2">Our analysis shows no significant signs of Reforestation in this area with ${confidence}% confidence. The forest appears healthy and intact.</p>
-                `;
-            }
-            
-            // Update confidence bar
-            confidenceBar.style.width = `${confidence}%`;
-            confidenceValue.textContent = `${confidence}%`;
-            
-            // Add to history
-            addToHistory(file, isReforestation, confidence, fromCamera);
-            
-            // Scroll to results
-            resultSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Add analysis to history
-        function addToHistory(file, isReforestation, confidence, fromCamera) {
-            const now = new Date();
-            const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            const row = document.createElement('tr');
-            row.className = 'border-b border-gray-200 dark:border-gray-700';
-            
-            // Create thumbnail
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                row.innerHTML = `
-                    <td class="py-3 px-4 text-sm text-gray-700 dark:text-gray-300">${dateStr}</td>
-                    <td class="py-3 px-4">
-                        <img src="${e.target.result}" alt="Analysis image" class="w-16 h-16 object-cover rounded-lg">
-                    </td>
-                    <td class="py-3 px-4">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${isReforestation ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'}">
-                            ${isReforestation ? 'Reforestation' : 'Healthy Forest'}
-                        </span>
-                    </td>
-                    <td class="py-3 px-4">
-                        <div class="flex items-center">
-                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mr-2">
-                                <div class="bg-terragreen-500 h-2 rounded-full" style="width: ${confidence}%"></div>
-                            </div>
-                            <span class="text-sm text-gray-700 dark:text-gray-300">${confidence}%</span>
-                        </div>
-                    </td>
-                `;
-            };
-            reader.readAsDataURL(file);
-            
-            historyTableBody.prepend(row);
-        }
-
-        // New analysis button
-        newAnalysisBtn.addEventListener('click', function() {
-            resultSection.classList.add('hidden');
-            fileInput.value = '';
-            fileName.textContent = 'Choose an image file';
-        });
-
-        // Load more button
-        loadMoreBtn.addEventListener('click', function() {
-            // In a real app, this would fetch more data from the backend
-            alert('In a real application, this would load more historical data from the server.');
-        });
-
-        // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (isLoggedIn !== 'true') {
+            // --- DOM Elements ---
+            const elements = {
+                sidebar: document.querySelector('.sidebar'),
+                sidebarToggle: document.getElementById('sidebar-toggle'),
+                darkModeToggle: document.getElementById('dark-mode-toggle'),
+                darkModeIcon: document.getElementById('dark-mode-icon'),
+                video: document.getElementById('camera'),
+                canvas: document.getElementById('canvas'),
+                captureBtn: document.getElementById('captureBtn'),
+                cameraForm: document.getElementById('cameraForm'),
+                capturedImageInput: document.getElementById('capturedImage'),
+                uploadBtn: document.getElementById('uploadBtn'),
+                uploadForm: document.getElementById('uploadForm'),
+                fileInput: document.getElementById('fileInput'),
+                fileName: document.getElementById('fileName'),
+                resultSection: document.getElementById('resultSection'),
+                resultImage: document.getElementById('resultImage'),
+                predictionText: document.getElementById('predictionText'),
+                cameraContainer: document.getElementById('cameraContainer'),
+                cameraError: document.getElementById('cameraError'),
+                alertArea: document.getElementById('alertArea'),
+                alertRisk: document.getElementById('alertRisk'),
+                ndviValues: document.getElementById('ndviValues')
+            };
+
+            // --- Basic UI Setup ---
+            elements.sidebarToggle.addEventListener('click', () => elements.sidebar.classList.toggle('open'));
+
+            function setDarkMode(isDark) {
+                document.documentElement.classList.toggle('dark', isDark);
+                localStorage.theme = isDark ? 'dark' : 'light';
+                elements.darkModeIcon.classList.toggle('fa-moon', !isDark);
+                elements.darkModeIcon.classList.toggle('fa-sun', isDark);
+            }
+            elements.darkModeToggle.addEventListener('click', () => setDarkMode(!document.documentElement.classList.contains('dark')));
+            setDarkMode(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+            // --- Authentication & User Info ---
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
-            
-            // Initialize camera
-            initializeCamera();
-            
-            // Add logout functionality
-            const logoutButtons = document.querySelectorAll('.logout-button');
-            logoutButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('userEmail');
-                    localStorage.removeItem('userName');
-                    window.location.href = 'login.html';
-                });
-            });
-            
-            // Update user info if available
-            const userEmail = localStorage.getItem('userEmail');
             const userName = localStorage.getItem('userName');
-            
             if (userName) {
-                const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
-                const userInitialElements = document.querySelectorAll('.user-initials');
-                userInitialElements.forEach(el => {
-                    el.textContent = userInitials;
-                });
-                
-                const userNameElements = document.querySelectorAll('.user-name');
-                userNameElements.forEach(el => {
-                    el.textContent = userName;
-                });
+                const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.querySelector('.user-initials').textContent = initials;
+                document.querySelector('.user-name').textContent = userName;
             }
+            document.querySelector('.logout-button').addEventListener('click', e => {
+                e.preventDefault();
+                ['isLoggedIn', 'userEmail', 'userName'].forEach(item => localStorage.removeItem(item));
+                window.location.href = 'login.html';
+            });
+
+            // --- Camera Logic ---
+            function initializeCamera() {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(stream => {
+                            elements.video.srcObject = stream;
+                            elements.cameraError.classList.add('hidden');
+                        })
+                        .catch(err => {
+                            elements.cameraError.textContent = "Camera access denied. Please allow camera permissions.";
+                            elements.cameraError.classList.remove('hidden');
+                        });
+                } else {
+                    elements.cameraError.textContent = "Your browser doesn't support camera access.";
+                    elements.cameraError.classList.remove('hidden');
+                }
+            }
+
+            elements.captureBtn.addEventListener('click', () => {
+                const context = elements.canvas.getContext('2d');
+                elements.canvas.width = elements.video.videoWidth;
+                elements.canvas.height = elements.video.videoHeight;
+                context.drawImage(elements.video, 0, 0, elements.canvas.width, elements.canvas.height);
+
+                elements.canvas.toBlob(blob => {
+                    const file = new File([blob], "captured.jpg", { type: "image/jpeg" });
+                    simulateAnalysis(file); // Use simulation directly
+                }, 'image/jpeg');
+            });
+
+            // --- Form & Upload Logic ---
+            elements.fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    elements.fileName.textContent = this.files[0].name;
+                }
+            });
+
+            elements.uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (elements.fileInput.files.length === 0) {
+                    alert('Please select an image file first.');
+                    return;
+                }
+                simulateAnalysis(elements.fileInput.files[0]);
+            });
+
+            // --- Analysis Simulation ---
+            function simulateAnalysis(file) {
+                elements.resultSection.classList.remove('hidden');
+                
+                const reader = new FileReader();
+                reader.onload = e => { elements.resultImage.src = e.target.result; };
+                reader.readAsDataURL(file);
+
+                const isReforestation = Math.random() > 0.5;
+                
+                if (isReforestation) {
+                    elements.predictionText.innerHTML = `<span class="text-red-600 dark:text-red-400">Reforestation Detected</span>`;
+                    elements.alertArea.textContent = `+${(Math.random() * 100).toFixed(1)} ha`;
+                    elements.alertRisk.textContent = ['High', 'Medium'][Math.floor(Math.random() * 2)];
+                } else {
+                    elements.predictionText.innerHTML = `<span class="text-green-600 dark:text-green-400">No Reforestation Detected</span>`;
+                    elements.alertArea.textContent = `+0.0 ha`;
+                    elements.alertRisk.textContent = 'Low';
+                }
+
+                // Simulate NDVI values
+                const currentNDVI = (Math.random() * 0.4 + 0.4).toFixed(2);
+                const lastMonthNDVI = (parseFloat(currentNDVI) + (Math.random() * 0.1 - 0.05)).toFixed(2);
+                const lastYearNDVI = (parseFloat(currentNDVI) + (Math.random() * 0.2 - 0.1)).toFixed(2);
+                elements.ndviValues.innerHTML = `
+                    <div class="flex justify-between"><span>Current:</span> <span class="font-medium text-terragreen-600 dark:text-terragreen-400">${currentNDVI}</span></div>
+                    <div class="flex justify-between"><span>Last Month:</span> <span class="font-medium">${lastMonthNDVI}</span></div>
+                    <div class="flex justify-between"><span>Last Year:</span> <span class="font-medium">${lastYearNDVI}</span></div>
+                `;
+                
+                elements.resultSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // --- Page Initialization ---
+            initializeCamera();
         });
     </script>
 </body>
