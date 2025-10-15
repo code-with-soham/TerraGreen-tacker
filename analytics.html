@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics - TerraGreen Tracker</title>
+    <title>TerraGreen Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -45,213 +45,255 @@
                 transform: translateX(0);
             }
         }
+        .file-input {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
+        .file-input-label {
+            transition: all 0.3s ease;
+        }
+        .camera-preview {
+            transition: all 0.3s ease;
+        }
+        .flash {
+            animation: flash 0.3s ease;
+        }
+        @keyframes flash {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #339d63;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .dark .loader {
+            border: 3px solid #374151;
+            border-top: 3px solid #339d63;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar bg-white w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
-            <div class="p-4 border-b border-gray-200">
+        <div class="sidebar bg-white dark:bg-gray-800 w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <img src="./logo.png" alt="TerraGreen Tracker" srcset="">
+                    <div class="w-10 h-10 bg-terragreen-500 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white">TerraGreen Tracker</h1>
                 </div>
             </div>
             
             <nav class="p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="index.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-home mr-3"></i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
+                    
                     <li>
-                        <a href="analytics.html" class="flex items-center p-3 bg-terragreen-50 text-terragreen-600 rounded-lg">
+                        <a href="analytics.html" class="flex items-center p-3 bg-terragreen-50 dark:bg-gray-700 text-terragreen-600 dark:text-terragreen-400 rounded-lg">
                             <i class="fas fa-chart-bar mr-3"></i>
                             <span>Analytics</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-robot mr-3"></i>
                             <span>Support Chat</span>
                         </a>
                     </li>
                 </ul>
                 
-                <div class="mt-8 pt-6 border-t border-gray-200">
-                    <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3 px-3">Account</h3>
+                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold mb-3 px-3">Account</h3>
                     <ul class="space-y-2">
+                        
                         <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
-                                <i class="fas fa-user mr-3"></i>
-                                <span>Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
-                                <i class="fas fa-cog mr-3"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                                 <i class="fas fa-sign-out-alt mr-3"></i>
-                                <span>Logout</span>
+                                
                             </a>
                         </li>
                     </ul>
                 </div>
             </nav>
         </div>
-        
+
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden md:ml-0">
             <!-- Top Bar -->
-            <header class="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
+            <header class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 flex items-center justify-between">
                 <div class="flex items-center">
-                    <button id="sidebar-toggle" class="md:hidden text-gray-600 mr-4">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-600 dark:text-gray-300 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-xl font-semibold text-gray-800">Analytics</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Analytics</h2>
                 </div>
                 
                 <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    </button>
+                    
                     <div class="relative">
-                        <button class="text-gray-600 hover:text-gray-800">
+                        <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
                             <i class="fas fa-bell text-xl"></i>
                         </button>
                         <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                     </div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2">
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">
                             S
                         </div>
-                        <span class="text-gray-700">Soham</span>
+                        <span class="text-gray-700 dark:text-gray-300 user-name">Soham</span>
                     </div>
                 </div>
             </header>
             
             <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto p-6">
-                <!-- Date Range Selector -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Filter Data by Date Range</h3>
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                            <input type="date" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
+                <!-- Header Section -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white flex items-center">
+                        <i class="fas fa-tree text-terragreen-500 mr-3"></i> Reforestation Detection
+                    </h1>
+                    <p class="mt-2 text-gray-600 dark:text-gray-400">Upload an image or capture one using your camera to detect reforestation</p>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Upload Section -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                            <i class="fas fa-cloud-upload-alt text-terragreen-500 mr-2"></i> Upload Image
+                        </h2>
+                        
+                        <form action="/predict" method="post" enctype="multipart/form-data" id="uploadForm">
+                            <div class="file-input-wrapper mb-4">
+                                <input type="file" name="image" accept="image/*" id="fileInput" class="file-input" required>
+                                <label for="fileInput" class="file-input-label block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 text-center cursor-pointer hover:border-terragreen-500 dark:hover:border-terragreen-400 transition-colors">
+                                    <i class="fas fa-file-image text-4xl text-gray-400 dark:text-gray-500 mb-3"></i>
+                                    <span class="block text-gray-700 dark:text-gray-300 font-medium" id="fileName">Choose an image file</span>
+                                    <small class="text-gray-500 dark:text-gray-400">JPG, PNG, or WebP formats supported</small>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn w-full py-3 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-xl font-medium transition-colors flex items-center justify-center" id="uploadBtn">
+                                <i class="fas fa-search mr-2"></i> Analyze Image
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Camera Section -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
+                            <i class="fas fa-camera text-terragreen-500 mr-2"></i> Capture Image
+                        </h2>
+                        
+                        <div class="camera-preview bg-gray-100 dark:bg-gray-700 rounded-xl overflow-hidden mb-4 relative" id="cameraContainer">
+                            <video id="camera" autoplay playsinline class="w-full h-64 object-cover"></video>
+                            <div id="cameraError" class="hidden absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+                                <i class="fas fa-exclamation-triangle text-3xl text-yellow-500 mb-2"></i>
+                                <p class="text-gray-700 dark:text-gray-300">Camera access is required to capture images. Please allow camera permissions and refresh the page.</p>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                            <input type="date" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
-                        </div>
-                        <div class="flex items-end">
-                            <button class="px-4 py-2 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">
-                                Apply Filter
+                        
+                        <div class="flex justify-center mb-4">
+                            <button id="captureBtn" class="w-16 h-16 rounded-full bg-terragreen-500 hover:bg-terragreen-600 text-white flex items-center justify-center transition-colors shadow-lg">
+                                <i class="fas fa-camera text-xl"></i>
                             </button>
                         </div>
+                        
+                        <canvas id="canvas" class="hidden"></canvas>
+                        
+                        <form id="cameraForm" action="/predict" method="post" enctype="multipart/form-data" class="hidden">
+                            <input type="file" id="capturedImage" name="image">
+                        </form>
                     </div>
                 </div>
-                
-                <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <!-- Anomalies by Type -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Anomalies by Type</h3>
-                        <div class="h-80">
-                            <canvas id="anomaliesChart"></canvas>
-                        </div>
-                    </div>
+
+                <!-- Result Section -->
+                <div id="resultSection" class="hidden mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Analysis Result</h2>
                     
-                    <!-- Sensor Health Distribution -->
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Sensor Health Distribution</h3>
-                        <div class="h-80">
-                            <canvas id="sensorHealthChart"></canvas>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Uploaded Image</h3>
+                            <img id="resultImage" src="" alt="Uploaded Image" class="w-full rounded-lg shadow-sm">
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-2">Analysis</h3>
+                            <div id="predictionText" class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-800 dark:text-gray-200">
+                                <!-- Prediction result will appear here -->
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h4 class="font-medium text-gray-800 dark:text-white mb-2">Confidence Level</h4>
+                                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-4">
+                                    <div id="confidenceBar" class="bg-terragreen-500 h-4 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <div class="flex justify-between mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                    <span>0%</span>
+                                    <span id="confidenceValue">0%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <button id="newAnalysisBtn" class="py-2 px-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-colors">
+                                    <i class="fas fa-redo mr-2"></i> New Analysis
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Data Table -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800">Environmental Data Records</h3>
-                        <div class="mt-2 md:mt-0 flex space-x-2">
-                            <input type="text" placeholder="Search..." class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
-                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fas fa-filter mr-2"></i> Filter
-                            </button>
-                            <button class="px-4 py-2 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">
-                                <i class="fas fa-download mr-2"></i> Export
-                            </button>
-                        </div>
-                    </div>
+
+                <!-- History Section -->
+                <div class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Recent Analyses</h2>
                     
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
                             <thead>
-                                <tr class="border-b border-gray-200">
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50">
-                                        <div class="flex items-center">
-                                            <span>ID</span>
-                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
-                                        </div>
-                                    </th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50">
-                                        <div class="flex items-center">
-                                            <span>Date</span>
-                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
-                                        </div>
-                                    </th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50">
-                                        <div class="flex items-center">
-                                            <span>Location</span>
-                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
-                                        </div>
-                                    </th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50">
-                                        <div class="flex items-center">
-                                            <span>Data Type</span>
-                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
-                                        </div>
-                                    </th>
-                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50">
-                                        <div class="flex items-center">
-                                            <span>Value</span>
-                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
-                                        </div>
-                                    </th>
+                                <tr class="border-b border-gray-200 dark:border-gray-700">
+                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
+                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Image</th>
+                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Result</th>
+                                    <th class="text-left py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Confidence</th>
                                 </tr>
                             </thead>
-                            <tbody id="data-table-body">
-                                <!-- Data will be populated by JavaScript -->
+                            <tbody id="historyTableBody">
+                                <!-- History data will be populated by JavaScript -->
                             </tbody>
                         </table>
                     </div>
                     
-                    <!-- Pagination -->
-                    <div class="flex justify-between items-center mt-6">
-                        <div class="text-sm text-gray-500">
-                            Showing <span id="showing-from">1</span> to <span id="showing-to">10</span> of <span id="total-records">50</span> records
-                        </div>
-                        <div class="flex space-x-2">
-                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="px-3 py-1 bg-terragreen-500 text-white rounded-lg">1</button>
-                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">2</button>
-                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">3</button>
-                            <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
+                    <div class="mt-4 text-center">
+                        <button id="loadMoreBtn" class="py-2 px-4 bg-terragreen-500 hover:bg-terragreen-600 text-white rounded-lg font-medium transition-colors">
+                            Load More
+                        </button>
                     </div>
                 </div>
             </main>
@@ -265,119 +307,284 @@
             sidebar.classList.toggle('open');
         });
 
-        // Initialize charts
-        function initCharts() {
-            // Anomalies by Type Chart (Bar Chart)
-            const anomaliesCtx = document.getElementById('anomaliesChart').getContext('2d');
-            const anomaliesChart = new Chart(anomaliesCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Drought', 'Pest', 'Flood', 'Fire Risk', 'Pollution'],
-                    datasets: [{
-                        label: 'Number of Anomalies',
-                        data: [12, 19, 8, 15, 7],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(153, 102, 255, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(75, 192, 192)',
-                            'rgb(255, 159, 64)',
-                            'rgb(153, 102, 255)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            
-            // Sensor Health Distribution Chart (Pie Chart)
-            const sensorHealthCtx = document.getElementById('sensorHealthChart').getContext('2d');
-            const sensorHealthChart = new Chart(sensorHealthCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Online', 'Offline', 'Maintenance', 'Error'],
-                    datasets: [{
-                        data: [75, 5, 15, 5],
-                        backgroundColor: [
-                            'rgba(51, 157, 99, 0.7)',
-                            'rgba(239, 68, 68, 0.7)',
-                            'rgba(245, 158, 11, 0.7)',
-                            'rgba(156, 163, 175, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgb(51, 157, 99)',
-                            'rgb(239, 68, 68)',
-                            'rgb(245, 158, 11)',
-                            'rgb(156, 163, 175)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const darkModeIcon = document.getElementById('dark-mode-icon');
+        
+        // Check for saved theme preference or respect OS preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            darkModeIcon.classList.remove('fa-sun');
+            darkModeIcon.classList.add('fa-moon');
         }
+        
+        darkModeToggle.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            }
+        });
 
-        // Populate data table
-        function populateDataTable() {
-            // Sample data
-            const data = [
-                { id: 'SEN-001', date: '2023-06-15', location: 'Forest North', dataType: 'Temperature', value: '24.5°C' },
-                { id: 'SEN-002', date: '2023-06-15', location: 'River East', dataType: 'Water Quality', value: '7.2 pH' },
-                { id: 'SEN-003', date: '2023-06-14', location: 'Agricultural Zone', dataType: 'Soil Moisture', value: '42%' },
-                { id: 'SEN-004', date: '2023-06-14', location: 'Urban Center', dataType: 'Air Quality', value: 'AQI 65' },
-                { id: 'SEN-005', date: '2023-06-13', location: 'Mountain West', dataType: 'Humidity', value: '78%' },
-                { id: 'SEN-006', date: '2023-06-13', location: 'Coastal Area', dataType: 'Wind Speed', value: '12 km/h' },
-                { id: 'SEN-007', date: '2023-06-12', location: 'Forest North', dataType: 'Temperature', value: '22.1°C' },
-                { id: 'SEN-008', date: '2023-06-12', location: 'River East', dataType: 'Water Quality', value: '7.0 pH' },
-                { id: 'SEN-009', date: '2023-06-11', location: 'Agricultural Zone', dataType: 'Soil Moisture', value: '38%' },
-                { id: 'SEN-010', date: '2023-06-11', location: 'Urban Center', dataType: 'Air Quality', value: 'AQI 72' }
-            ];
-            
-            const tableBody = document.getElementById('data-table-body');
-            tableBody.innerHTML = '';
-            
-            data.forEach(item => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-100 hover:bg-gray-50';
-                
-                row.innerHTML = `
-                    <td class="py-3 px-4 text-sm text-gray-700">${item.id}</td>
-                    <td class="py-3 px-4 text-sm text-gray-500">${item.date}</td>
-                    <td class="py-3 px-4 text-sm text-gray-700">${item.location}</td>
-                    <td class="py-3 px-4 text-sm text-gray-700">${item.dataType}</td>
-                    <td class="py-3 px-4 text-sm text-gray-700">${item.value}</td>
+        // DOM Elements
+        const video = document.getElementById('camera');
+        const canvas = document.getElementById('canvas');
+        const captureBtn = document.getElementById('captureBtn');
+        const cameraForm = document.getElementById('cameraForm');
+        const capturedImageInput = document.getElementById('capturedImage');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const resultSection = document.getElementById('resultSection');
+        const resultImage = document.getElementById('resultImage');
+        const predictionText = document.getElementById('predictionText');
+        const confidenceBar = document.getElementById('confidenceBar');
+        const confidenceValue = document.getElementById('confidenceValue');
+        const newAnalysisBtn = document.getElementById('newAnalysisBtn');
+        const historyTableBody = document.getElementById('historyTableBody');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const cameraContainer = document.getElementById('cameraContainer');
+        const cameraError = document.getElementById('cameraError');
+
+        // Access camera
+        function initializeCamera() {
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => { 
+                        video.srcObject = stream; 
+                        cameraError.classList.add('hidden');
+                    })
+                    .catch(err => { 
+                        console.error("Camera access denied:", err);
+                        cameraError.classList.remove('hidden');
+                    });
+            } else {
+                cameraError.classList.remove('hidden');
+                cameraError.innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-3xl text-yellow-500 mb-2"></i>
+                    <p class="text-gray-700 dark:text-gray-300">Your browser doesn't support camera access.</p>
                 `;
-                
-                tableBody.appendChild(row);
-            });
+            }
         }
 
-        // Initialize everything
+        // Capture image from camera
+        captureBtn.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Create a flash effect
+            const flash = document.createElement('div');
+            flash.className = 'flash absolute inset-0 bg-white opacity-0';
+            cameraContainer.appendChild(flash);
+            setTimeout(() => {
+                cameraContainer.removeChild(flash);
+            }, 300);
+
+            // Convert canvas to blob and submit form
+            canvas.toBlob(blob => {
+                const file = new File([blob], "captured.jpg", { type: "image/jpeg" });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                capturedImageInput.files = dataTransfer.files;
+                
+                // Show loading state
+                captureBtn.innerHTML = '<div class="loader"></div>';
+                captureBtn.disabled = true;
+                
+                // Simulate analysis (in a real app, this would submit to the backend)
+                setTimeout(() => {
+                    simulateAnalysis(file, true);
+                }, 1500);
+            }, 'image/jpeg');
+        });
+
+        // Handle file input change
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                fileName.textContent = file.name;
+                
+                // Preview image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // In a real app, you might show a preview here
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle form submission
+        uploadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (fileInput.files.length === 0) {
+                alert('Please select an image file first.');
+                return;
+            }
+            
+            // Show loading state
+            uploadBtn.innerHTML = '<div class="loader"></div> Analyzing...';
+            uploadBtn.disabled = true;
+            
+            // Simulate analysis (in a real app, this would submit to the backend)
+            setTimeout(() => {
+                simulateAnalysis(fileInput.files[0], false);
+            }, 1500);
+        });
+
+        // Simulate analysis results (for demo purposes)
+        function simulateAnalysis(file, fromCamera) {
+            // Reset buttons
+            uploadBtn.innerHTML = '<i class="fas fa-search mr-2"></i> Analyze Image';
+            uploadBtn.disabled = false;
+            captureBtn.innerHTML = '<i class="fas fa-camera"></i>';
+            captureBtn.disabled = false;
+            
+            // Show result section
+            resultSection.classList.remove('hidden');
+            
+            // Display the image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                resultImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            
+            // Generate random results for demo
+            const isReforestation = Math.random() > 0.5;
+            const confidence = Math.floor(Math.random() * 30) + 70; // 70-100%
+            
+            if (isReforestation) {
+                predictionText.innerHTML = `
+                    <div class="flex items-center text-red-600 dark:text-red-400">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <span class="font-medium">Reforestation Detected</span>
+                    </div>
+                    <p class="mt-2">Our analysis indicates signs of Reforestation in this area with ${confidence}% confidence. The image shows reduced forest cover and potential land degradation.</p>
+                `;
+            } else {
+                predictionText.innerHTML = `
+                    <div class="flex items-center text-green-600 dark:text-green-400">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span class="font-medium">No Reforestation Detected</span>
+                    </div>
+                    <p class="mt-2">Our analysis shows no significant signs of Reforestation in this area with ${confidence}% confidence. The forest appears healthy and intact.</p>
+                `;
+            }
+            
+            // Update confidence bar
+            confidenceBar.style.width = `${confidence}%`;
+            confidenceValue.textContent = `${confidence}%`;
+            
+            // Add to history
+            addToHistory(file, isReforestation, confidence, fromCamera);
+            
+            // Scroll to results
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add analysis to history
+        function addToHistory(file, isReforestation, confidence, fromCamera) {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-200 dark:border-gray-700';
+            
+            // Create thumbnail
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-sm text-gray-700 dark:text-gray-300">${dateStr}</td>
+                    <td class="py-3 px-4">
+                        <img src="${e.target.result}" alt="Analysis image" class="w-16 h-16 object-cover rounded-lg">
+                    </td>
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${isReforestation ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'}">
+                            ${isReforestation ? 'Reforestation' : 'Healthy Forest'}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center">
+                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mr-2">
+                                <div class="bg-terragreen-500 h-2 rounded-full" style="width: ${confidence}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">${confidence}%</span>
+                        </div>
+                    </td>
+                `;
+            };
+            reader.readAsDataURL(file);
+            
+            historyTableBody.prepend(row);
+        }
+
+        // New analysis button
+        newAnalysisBtn.addEventListener('click', function() {
+            resultSection.classList.add('hidden');
+            fileInput.value = '';
+            fileName.textContent = 'Choose an image file';
+        });
+
+        // Load more button
+        loadMoreBtn.addEventListener('click', function() {
+            // In a real app, this would fetch more data from the backend
+            alert('In a real application, this would load more historical data from the server.');
+        });
+
+        // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            initCharts();
-            populateDataTable();
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Initialize camera
+            initializeCamera();
+            
+            // Add logout functionality
+            const logoutButtons = document.querySelectorAll('.logout-button');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    window.location.href = 'login.html';
+                });
+            });
+            
+            // Update user info if available
+            const userEmail = localStorage.getItem('userEmail');
+            const userName = localStorage.getItem('userName');
+            
+            if (userName) {
+                const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+                const userInitialElements = document.querySelectorAll('.user-initials');
+                userInitialElements.forEach(el => {
+                    el.textContent = userInitials;
+                });
+                
+                const userNameElements = document.querySelectorAll('.user-name');
+                userNameElements.forEach(el => {
+                    el.textContent = userName;
+                });
+            }
         });
     </script>
 </body>

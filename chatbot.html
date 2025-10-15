@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -44,71 +45,60 @@
                 transform: translateX(0);
             }
         }
-        .chat-container {
-            height: calc(100vh - 140px);
-        }
         .messages-container {
-            height: calc(100% - 80px);
+            height: calc(100vh - 220px); /* Adjusted height for consistency */
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="sidebar bg-white w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
-            <div class="p-4 border-b border-gray-200">
+        <div class="sidebar bg-white dark:bg-gray-800 w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex items-center">
-                    <img src="./logo.png" alt="TerraGreen Tracker" srcset="">
+                    <div class="w-10 h-10 bg-terragreen-500 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800 dark:text-white">TerraGreen Tracker</h1>
                 </div>
             </div>
             
             <nav class="p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="index.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-home mr-3"></i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-tachometer-alt mr-3"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
+                    
                     <li>
-                        <a href="analytics.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                        <a href="analytics.html" class="flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                             <i class="fas fa-chart-bar mr-3"></i>
                             <span>Analytics</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chatbot.html" class="flex items-center p-3 bg-terragreen-50 text-terragreen-600 rounded-lg">
+                        <a href="chatbot.html" class="flex items-center p-3 bg-terragreen-50 dark:bg-gray-700 text-terragreen-600 dark:text-terragreen-400 rounded-lg">
                             <i class="fas fa-robot mr-3"></i>
                             <span>Support Chat</span>
                         </a>
                     </li>
                 </ul>
                 
-                <div class="mt-8 pt-6 border-t border-gray-200">
-                    <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3 px-3">Account</h3>
+               <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="text-xs uppercase text-gray-500 dark:text-gray-400 font-semibold mb-3 px-3">Account</h3>
                     <ul class="space-y-2">
+                        
                         <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
-                                <i class="fas fa-user mr-3"></i>
-                                <span>Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
-                                <i class="fas fa-cog mr-3"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 dark:text-gray-300 hover:bg-terragreen-50 dark:hover:bg-gray-700 hover:text-terragreen-600 dark:hover:text-terragreen-400 rounded-lg transition-colors">
                                 <i class="fas fa-sign-out-alt mr-3"></i>
-                                <span>Logout</span>
+                                
                             </a>
                         </li>
                     </ul>
@@ -116,37 +106,43 @@
             </nav>
         </div>
         
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden md:ml-0">
-            <!-- Top Bar -->
-            <header class="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
+            <header class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 flex items-center justify-between">
                 <div class="flex items-center">
-                    <button id="sidebar-toggle" class="md:hidden text-gray-600 mr-4">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-600 dark:text-gray-300 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-xl font-semibold text-gray-800">Support Chat</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Support Chat</h2>
                 </div>
                 
                 <div class="flex items-center space-x-4">
+                    <button id="dark-mode-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-moon" id="dark-mode-icon"></i>
+                    </button>
+                    
+                    <div class="relative">
+                        <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
+                            <i class="fas fa-bell text-xl"></i>
+                        </button>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
                     <div class="flex items-center">
-                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2">
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">
                             S
                         </div>
-                        <span class="text-gray-700">Soham</span>
+                        <span class="text-gray-700 dark:text-gray-300 user-name">Soham</span>
                     </div>
                 </div>
             </header>
             
-            <!-- Main Content Area -->
             <main class="flex-1 overflow-hidden p-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 h-full flex flex-col">
-                    <!-- Chat Header -->
-                    <div class="p-4 border-b border-gray-200 flex items-center">
-                        <div class="w-10 h-10 bg-terragreen-100 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-robot text-terragreen-600"></i>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 h-full flex flex-col">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                        <div class="w-10 h-10 bg-terragreen-100 dark:bg-terragreen-900/50 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400"></i>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-800">TerraGreen Support Bot</h3>
+                            <h3 class="font-semibold text-gray-800 dark:text-white">TerraGreen Support Bot</h3>
                             <p class="text-xs text-green-600 flex items-center">
                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                 Online
@@ -154,48 +150,44 @@
                         </div>
                     </div>
                     
-                    <!-- Messages Container -->
                     <div class="messages-container overflow-y-auto p-4 flex-1">
                         <div class="space-y-4" id="chat-messages">
-                            <!-- Bot welcome message -->
                             <div class="flex items-start">
-                                <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                                <div class="w-8 h-8 bg-terragreen-100 dark:bg-terragreen-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400 text-sm"></i>
                                 </div>
-                                <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
-                                    <p class="text-gray-800">Hello! I'm the TerraGreen Support Bot. How can I assist you with your environmental monitoring needs today?</p>
-                                    <p class="text-xs text-gray-500 mt-2">10:00 AM</p>
+                                <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
+                                    <p class="text-gray-800 dark:text-gray-200">Hello! I'm the TerraGreen Support Bot. How can I assist you with your environmental monitoring needs today?</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">10:00 AM</p>
                                 </div>
                             </div>
                             
-                            <!-- Bot quick options -->
                             <div class="flex items-start">
-                                <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                                <div class="w-8 h-8 bg-terragreen-100 dark:bg-terragreen-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400 text-sm"></i>
                                 </div>
-                                <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
-                                    <p class="text-gray-800 mb-2">You can ask me about:</p>
+                                <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
+                                    <p class="text-gray-800 dark:text-gray-200 mb-2">You can ask me about:</p>
                                     <div class="flex flex-wrap gap-2">
-                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Sensor issues</button>
-                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Data interpretation</button>
-                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Account settings</button>
-                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Billing questions</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Sensor issues</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Data interpretation</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Account settings</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Billing questions</button>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-2">10:01 AM</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">10:01 AM</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Input Area -->
-                    <div class="p-4 border-t border-gray-200">
+                    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex space-x-2">
-                            <input type="text" id="message-input" placeholder="Type your message here..." class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
+                            <input type="text" id="message-input" placeholder="Type your message here..." class="flex-1 p-3 border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
                             <button id="send-button" class="px-4 py-3 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2 text-center">TerraGreen Support Bot is powered by AI and may occasionally provide inaccurate information.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">TerraGreen Support Bot is powered by AI and may occasionally provide inaccurate information.</p>
                     </div>
                 </div>
             </main>
@@ -209,8 +201,44 @@
             sidebar.classList.toggle('open');
         });
 
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const darkModeIcon = document.getElementById('dark-mode-icon');
+        
+        // Check for saved theme preference or respect OS preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkModeIcon.classList.remove('fa-moon');
+            darkModeIcon.classList.add('fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            darkModeIcon.classList.remove('fa-sun');
+            darkModeIcon.classList.add('fa-moon');
+        }
+        
+        darkModeToggle.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                darkModeIcon.classList.remove('fa-sun');
+                darkModeIcon.classList.add('fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                darkModeIcon.classList.remove('fa-moon');
+                darkModeIcon.classList.add('fa-sun');
+            }
+        });
+        
         // Chat functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
             const messageInput = document.getElementById('message-input');
             const sendButton = document.getElementById('send-button');
             const chatMessages = document.getElementById('chat-messages');
@@ -219,26 +247,28 @@
             // Function to add a message to the chat
             function addMessage(text, isUser = false) {
                 const messageDiv = document.createElement('div');
-                messageDiv.className = `flex items-start ${isUser ? 'justify-end' : ''}`;
+                messageDiv.className = `flex items-start ${isUser ? 'justify-end' : ''} my-4`;
                 
                 if (isUser) {
+                    const userName = localStorage.getItem('userName') || 'User';
+                    const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
                     messageDiv.innerHTML = `
                         <div class="bg-terragreen-500 text-white rounded-lg p-3 max-w-xs md:max-w-md">
                             <p>${text}</p>
-                            <p class="text-xs text-terragreen-100 mt-2">${getCurrentTime()}</p>
+                            <p class="text-xs text-terragreen-200 mt-2 text-right">${getCurrentTime()}</p>
                         </div>
-                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
-                            <i class="fas fa-user text-white text-sm"></i>
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center ml-3 flex-shrink-0 text-white font-semibold user-initials">
+                            ${userInitials}
                         </div>
                     `;
                 } else {
                     messageDiv.innerHTML = `
-                        <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                            <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                        <div class="w-8 h-8 bg-terragreen-100 dark:bg-terragreen-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400 text-sm"></i>
                         </div>
-                        <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
-                            <p class="text-gray-800">${text}</p>
-                            <p class="text-xs text-gray-500 mt-2">${getCurrentTime()}</p>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
+                            <p class="text-gray-800 dark:text-gray-200">${text}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">${getCurrentTime()}</p>
                         </div>
                     `;
                 }
@@ -249,8 +279,7 @@
             
             // Function to get current time in HH:MM format
             function getCurrentTime() {
-                const now = new Date();
-                return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             }
             
             // Function to scroll to the bottom of the chat
@@ -261,43 +290,38 @@
             
             // Function to simulate bot response
             function sendBotResponse(userMessage) {
-                // Simple response logic - in a real app, this would connect to a backend
-                let response = "Thank you for your query. I am connecting you to our knowledge base...";
+                let response = "I'm not sure how to answer that. Could you please rephrase? You can also ask about sensor issues, data interpretation, or account settings.";
                 
-                if (userMessage.toLowerCase().includes('sensor')) {
+                const lowerUserMessage = userMessage.toLowerCase();
+                
+                if (lowerUserMessage.includes('sensor')) {
                     response = "I can help with sensor issues. Common problems include connectivity, calibration, or power supply. Would you like me to run a diagnostic on your sensors?";
-                } else if (userMessage.toLowerCase().includes('data') || userMessage.toLowerCase().includes('analytics')) {
+                } else if (lowerUserMessage.includes('data') || lowerUserMessage.includes('interpretation')) {
                     response = "For data interpretation questions, I recommend checking our documentation on metric definitions. You can also contact our data science team for complex analysis requests.";
-                } else if (userMessage.toLowerCase().includes('account')) {
+                } else if (lowerUserMessage.includes('account') || lowerUserMessage.includes('setting')) {
                     response = "Account settings can be adjusted in the profile section. If you're having trouble accessing your account, I can help reset your password or escalate to our support team.";
-                } else if (userMessage.toLowerCase().includes('billing')) {
+                } else if (lowerUserMessage.includes('billing') || lowerUserMessage.includes('question')) {
                     response = "For billing inquiries, I can show you your current subscription details or connect you with our billing department for specific questions about charges or invoices.";
                 }
                 
-                // Simulate typing delay
                 setTimeout(() => {
                     addMessage(response, false);
                 }, 1000);
             }
             
-            // Send message when button is clicked
-            sendButton.addEventListener('click', function() {
+            // Send message when button is clicked or Enter is pressed
+            function sendMessage() {
                 const message = messageInput.value.trim();
                 if (message) {
                     addMessage(message, true);
                     messageInput.value = '';
                     sendBotResponse(message);
                 }
-            });
+            }
             
-            // Send message when Enter key is pressed
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendButton.click();
-                }
-            });
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
             
-            // Quick option buttons
             quickOptions.forEach(button => {
                 button.addEventListener('click', function() {
                     const optionText = this.textContent;
@@ -306,6 +330,29 @@
                 });
             });
             
+            // Add logout functionality
+            document.querySelectorAll('.logout-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    window.location.href = 'login.html';
+                });
+            });
+            
+            // Update user info from localStorage
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.querySelectorAll('.user-initials').forEach(el => {
+                    el.textContent = userInitials;
+                });
+                document.querySelectorAll('.user-name').forEach(el => {
+                    el.textContent = userName;
+                });
+            }
+
             // Initial scroll to bottom
             scrollToBottom();
         });
