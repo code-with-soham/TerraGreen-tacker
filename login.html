@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TerraGreen Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'terragreen': {
+                            50: '#f0f9f4',
+                            100: '#dcf2e3',
+                            200: '#bce5ca',
+                            300: '#8dd2a6',
+                            400: '#57b87e',
+                            500: '#339d63',
+                            600: '#25804f',
+                            700: '#1e6641',
+                            800: '#1a5135',
+                            900: '#16422d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .auth-bg {
+            background-image: linear-gradient(rgba(51, 157, 99, 0.85), rgba(51, 157, 99, 0.9)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .form-container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            box-shadow: 0 0 0 3px rgba(51, 157, 99, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-terragreen-500 rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-leaf text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">TerraGreen Tracker</h1>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-terragreen-600 transition-colors">Home</a>
+                <a href="dashboard.html" class="text-gray-600 hover:text-terragreen-600 transition-colors">Dashboard</a>
+                <a href="analytics.html" class="text-gray-600 hover:text-terragreen-600 transition-colors">Analytics</a>
+                <a href="chatbot.html" class="text-gray-600 hover:text-terragreen-600 transition-colors">Support</a>
+            </nav>
+            
+            <!-- Auth Buttons (Desktop) -->
+            <div class="hidden md:flex space-x-4">
+                <a href="login.html" class="px-4 py-2 text-terragreen-600 font-medium border-b-2 border-terragreen-600 pb-1">Login</a>
+                <a href="login.html?action=signup" class="px-4 py-2 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">Sign Up</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-4 shadow-lg">
+            <nav class="flex flex-col space-y-4">
+                <a href="index.html" class="text-gray-600 hover:text-terragreen-600 transition-colors py-2 pl-3">Home</a>
+                <a href="dashboard.html" class="text-gray-600 hover:text-terragreen-600 transition-colors py-2 pl-3">Dashboard</a>
+                <a href="analytics.html" class="text-gray-600 hover:text-terragreen-600 transition-colors py-2 pl-3">Analytics</a>
+                <a href="chatbot.html" class="text-gray-600 hover:text-terragreen-600 transition-colors py-2 pl-3">Support</a>
+                <div class="pt-4 border-t border-gray-200 flex flex-col space-y-3">
+                    <a href="login.html" class="py-2 text-terragreen-600 font-medium text-left pl-3 border-l-4 border-terragreen-600">Login</a>
+                    <a href="login.html?action=signup" class="py-2 bg-terragreen-500 text-white rounded-lg text-center">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen flex items-center justify-center auth-bg py-12 px-4">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Logo and Title -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-leaf text-terragreen-500 text-3xl"></i>
+                </div>
+                <h2 id="form-title" class="text-3xl font-bold text-white">Welcome Back</h2>
+                <p id="form-subtitle" class="mt-2 text-terragreen-100">Sign in to your TerraGreen Tracker account</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div id="alert-message" class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-700">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span id="alert-text"></span>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="form-container mt-8 p-8 rounded-2xl shadow-xl">
+                <div class="space-y-6">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-terragreen-300"></i>
+                            </div>
+                            <input id="login-email" name="email" type="email" autocomplete="email" required 
+                                class="input-field block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                placeholder="you@example.com">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-white mb-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-terragreen-300"></i>
+                            </div>
+                            <input id="login-password" name="password" type="password" autocomplete="current-password" required 
+                                class="input-field block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                placeholder="••••••••">
+                            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-terragreen-300"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" 
+                                class="h-4 w-4 text-terragreen-500 focus:ring-terragreen-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-white">Remember me</label>
+                        </div>
+                        
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-white hover:text-terragreen-100 transition-colors">Forgot your password?</a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" id="login-button" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-terragreen-500 hover:bg-terragreen-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-terragreen-500 transition-colors shadow-md">
+                            <span id="button-text">Sign in</span>
+                            <div id="button-spinner" class="hidden ml-2">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Signup Form (Hidden by default) -->
+            <form id="signup-form" class="form-container mt-8 p-8 rounded-2xl shadow-xl hidden">
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="signup-firstname" class="block text-sm font-medium text-white mb-1">First Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-terragreen-300"></i>
+                                </div>
+                                <input id="signup-firstname" name="firstname" type="text" autocomplete="given-name" required 
+                                    class="input-field block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                    placeholder="John">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="signup-lastname" class="block text-sm font-medium text-white mb-1">Last Name</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-terragreen-300"></i>
+                                </div>
+                                <input id="signup-lastname" name="lastname" type="text" autocomplete="family-name" required 
+                                    class="input-field block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                    placeholder="Doe">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="signup-email" class="block text-sm font-medium text-white mb-1">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-terragreen-300"></i>
+                            </div>
+                            <input id="signup-email" name="email" type="email" autocomplete="email" required 
+                                class="input-field block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                placeholder="you@example.com">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="signup-password" class="block text-sm font-medium text-white mb-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-terragreen-300"></i>
+                            </div>
+                            <input id="signup-password" name="password" type="password" autocomplete="new-password" required 
+                                class="input-field block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                placeholder="••••••••">
+                            <button type="button" id="toggle-signup-password" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-terragreen-300"></i>
+                            </button>
+                        </div>
+                        <p class="mt-1 text-xs text-terragreen-100">Must be at least 8 characters with uppercase, lowercase, and number</p>
+                    </div>
+                    
+                    <div>
+                        <label for="signup-confirm-password" class="block text-sm font-medium text-white mb-1">Confirm Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-terragreen-300"></i>
+                            </div>
+                            <input id="signup-confirm-password" name="confirm-password" type="password" autocomplete="new-password" required 
+                                class="input-field block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-terragreen-500 focus:border-transparent"
+                                placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input id="agree-terms" name="agree-terms" type="checkbox" required 
+                            class="h-4 w-4 text-terragreen-500 focus:ring-terragreen-500 border-gray-300 rounded">
+                        <label for="agree-terms" class="ml-2 block text-sm text-white">
+                            I agree to the <a href="#" class="text-white hover:text-terragreen-100 underline transition-colors">Terms of Service</a> and <a href="#" class="text-white hover:text-terragreen-100 underline transition-colors">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" id="signup-button" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-terragreen-500 hover:bg-terragreen-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-terragreen-500 transition-colors shadow-md">
+                            <span id="signup-button-text">Create Account</span>
+                            <div id="signup-button-spinner" class="hidden ml-2">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Toggle between Login and Signup -->
+            <div class="text-center mt-6">
+                <p id="toggle-text" class="text-white">
+                    Don't have an account?
+                    <a href="#" id="toggle-link" class="font-medium text-white hover:text-terragreen-100 underline transition-colors">Sign up</a>
+                </p>
+            </div>
+
+            <!-- Demo Credentials -->
+            <div class="mt-8 p-4 bg-white bg-opacity-20 rounded-xl">
+                <h3 class="text-white font-medium mb-2">Demo Credentials:</h3>
+                <div class="text-terragreen-100 text-sm">
+                    <p><span class="font-medium">Email:</span> demo@terragreen.com</p>
+                    <p><span class="font-medium">Password:</span> password123</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center items-center mb-4">
+                <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center mr-2">
+                    <i class="fas fa-leaf text-white"></i>
+                </div>
+                <h3 class="text-lg font-bold">TerraGreen Tracker</h3>
+            </div>
+            <p class="text-gray-400 mb-4">Advanced environmental monitoring for a sustainable future.</p>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 TerraGreen Tracker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuButton = document.getElementById('mobile-menu-button');
+            
+            if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Check URL parameters to determine if we should show signup form
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+        
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const formTitle = document.getElementById('form-title');
+        const formSubtitle = document.getElementById('form-subtitle');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleLink = document.getElementById('toggle-link');
+        const alertMessage = document.getElementById('alert-message');
+        const alertText = document.getElementById('alert-text');
+        
+        // Toggle between login and signup forms
+        function toggleForms(showSignup) {
+            if (showSignup) {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                formTitle.textContent = 'Create Account';
+                formSubtitle.textContent = 'Join TerraGreen Tracker today';
+                toggleText.innerHTML = 'Already have an account?';
+                toggleLink.textContent = 'Sign in';
+            } else {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                formTitle.textContent = 'Welcome Back';
+                formSubtitle.textContent = 'Sign in to your TerraGreen Tracker account';
+                toggleText.innerHTML = 'Don\'t have an account?';
+                toggleLink.textContent = 'Sign up';
+            }
+            hideAlert();
+        }
+        
+        // Show alert message
+        function showAlert(message, type = 'error') {
+            alertText.textContent = message;
+            alertMessage.classList.remove('hidden');
+            
+            if (type === 'success') {
+                alertMessage.classList.remove('bg-red-50', 'border-red-200', 'text-red-700');
+                alertMessage.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
+            } else {
+                alertMessage.classList.remove('bg-green-50', 'border-green-200', 'text-green-700');
+                alertMessage.classList.add('bg-red-50', 'border-red-200', 'text-red-700');
+            }
+        }
+        
+        // Hide alert message
+        function hideAlert() {
+            alertMessage.classList.add('hidden');
+        }
+        
+        // Toggle password visibility
+        function setupPasswordToggle(passwordId, toggleId) {
+            const passwordField = document.getElementById(passwordId);
+            const toggleButton = document.getElementById(toggleId);
+            
+            toggleButton.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                
+                // Toggle eye icon
+                const icon = toggleButton.querySelector('i');
+                if (type === 'password') {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            });
+        }
+        
+        // Predefined demo credentials
+        const demoCredentials = {
+            email: 'demo@terragreen.com',
+            password: 'password123'
+        };
+        
+        // Handle login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Show loading state
+            const buttonText = document.getElementById('button-text');
+            const buttonSpinner = document.getElementById('button-spinner');
+            buttonText.textContent = 'Signing in...';
+            buttonSpinner.classList.remove('hidden');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Check credentials
+                if (email === demoCredentials.email && password === demoCredentials.password) {
+                    // Successful login
+                    showAlert('Login successful! Redirecting to dashboard...', 'success');
+                    
+                    // Store login state in localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userEmail', email);
+                    
+                    // Redirect to dashboard after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    // Failed login
+                    showAlert('Invalid email or password. Please try again.');
+                    
+                    // Reset button state
+                    buttonText.textContent = 'Sign in';
+                    buttonSpinner.classList.add('hidden');
+                }
+            }, 1000);
+        });
+        
+        // Handle signup form submission
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('signup-firstname').value;
+            const lastName = document.getElementById('signup-lastname').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match. Please try again.');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                showAlert('Password must be at least 8 characters long.');
+                return;
+            }
+            
+            // Show loading state
+            const buttonText = document.getElementById('signup-button-text');
+            const buttonSpinner = document.getElementById('signup-button-spinner');
+            buttonText.textContent = 'Creating Account...';
+            buttonSpinner.classList.remove('hidden');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Successful signup
+                showAlert('Account created successfully! Redirecting to dashboard...', 'success');
+                
+                // Store login state in localStorage
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userName', `${firstName} ${lastName}`);
+                
+                // Redirect to dashboard after a short delay
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            }, 1500);
+        });
+        
+        // Toggle link event
+        toggleLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isSignupFormVisible = !signupForm.classList.contains('hidden');
+            toggleForms(!isSignupFormVisible);
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                // Redirect to dashboard if already logged in
+                window.location.href = 'dashboard.html';
+            }
+            
+            // Show signup form if URL parameter is set
+            if (action === 'signup') {
+                toggleForms(true);
+            } else {
+                toggleForms(false);
+            }
+            
+            // Setup password toggles
+            setupPasswordToggle('login-password', 'toggle-password');
+            setupPasswordToggle('signup-password', 'toggle-signup-password');
+        });
+    </script>
+</body>
+</html>

@@ -102,10 +102,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
-                                <i class="fas fa-sign-out-alt mr-3"></i>
-                                <span>Logout</span>
-                            </a>
+                            <a href="#" class="logout-button flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+    <i class="fas fa-sign-out-alt mr-3"></i>
+    <span>Logout</span>
+</a>
                         </li>
                     </ul>
                 </div>
@@ -410,6 +410,46 @@
                 updateSoilMoistureChart();
             }, 3000);
         });
+
+        // Authentication check for dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    
+    if (isLoggedIn !== 'true') {
+        // Redirect to login page if not logged in
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Update user info if available
+    const userEmail = localStorage.getItem('userEmail');
+    const userName = localStorage.getItem('userName');
+    
+    if (userName) {
+        const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+        const userInitialElements = document.querySelectorAll('.user-initials');
+        userInitialElements.forEach(el => {
+            el.textContent = userInitials;
+        });
+        
+        const userNameElements = document.querySelectorAll('.user-name');
+        userNameElements.forEach(el => {
+            el.textContent = userName;
+        });
+    }
+    
+    // Add logout functionality
+    const logoutButtons = document.querySelectorAll('.logout-button');
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            window.location.href = 'login.html';
+        });
+    });
+});
     </script>
 </body>
 </html>
