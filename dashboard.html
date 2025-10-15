@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TerraGreen Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'terragreen': {
+                            50: '#f0f9f4',
+                            100: '#dcf2e3',
+                            200: '#bce5ca',
+                            300: '#8dd2a6',
+                            400: '#57b87e',
+                            500: '#339d63',
+                            600: '#25804f',
+                            700: '#1e6641',
+                            800: '#1a5135',
+                            900: '#16422d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar bg-white w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center">
+                    
+                    <img src="./logo.png" alt="TerraGreen Tracker" srcset="">
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-home mr-3"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard.html" class="flex items-center p-3 bg-terragreen-50 text-terragreen-600 rounded-lg">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-chart-bar mr-3"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="chatbot.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-robot mr-3"></i>
+                            <span>Support Chat</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3 px-3">Account</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-user mr-3"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-cog mr-3"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-sign-out-alt mr-3"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden md:ml-0">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-600 mr-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold text-gray-800">Dashboard</h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-bell text-xl"></i>
+                        </button>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2">
+                            S
+                        </div>
+                        <span class="text-gray-700">Soham</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Key Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Area Monitored</p>
+                                <h3 class="text-2xl font-bold text-gray-800 mt-1" id="total-area">1,247 km²</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map-marked-alt text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-green-600 text-sm mt-2"><i class="fas fa-arrow-up mr-1"></i> 5.2% from last month</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Active Sensors</p>
+                                <h3 class="text-2xl font-bold text-gray-800 mt-1" id="active-sensors">342</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-microchip text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-green-600 text-sm mt-2"><i class="fas fa-circle mr-1"></i> 98% operational</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Anomalies Detected (24h)</p>
+                                <h3 class="text-2xl font-bold text-gray-800 mt-1" id="anomalies">12</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-red-600 text-sm mt-2"><i class="fas fa-arrow-up mr-1"></i> 3 new since yesterday</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">System Status</p>
+                                <h3 class="text-2xl font-bold text-green-600 mt-1">Operational</h3>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-2">All systems normal</p>
+                    </div>
+                </div>
+                
+                <!-- Charts and Map Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Live Map -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Live Monitoring Map</h3>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 bg-terragreen-50 text-terragreen-600 rounded-lg text-sm">Satellite</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm">Terrain</button>
+                            </div>
+                        </div>
+                        <div class="h-80 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-map text-4xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500">Interactive map would appear here</p>
+                                <p class="text-gray-400 text-sm mt-1">Connected to live sensor network</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Real-time Chart -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Soil Moisture Levels</h3>
+                            <div class="text-sm text-gray-500">Live</div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="soilMoistureChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Images and Alerts -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Recent Images -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Image Feed</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Forest monitoring" class="w-full h-32 object-cover">
+                                <div class="p-2">
+                                    <p class="text-xs text-gray-500">Today, 09:24 AM</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Agricultural field" class="w-full h-32 object-cover">
+                                <div class="p-2">
+                                    <p class="text-xs text-gray-500">Today, 07:15 AM</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Water source" class="w-full h-32 object-cover">
+                                <div class="p-2">
+                                    <p class="text-xs text-gray-500">Yesterday, 04:32 PM</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Mountain area" class="w-full h-32 object-cover">
+                                <div class="p-2">
+                                    <p class="text-xs text-gray-500">Yesterday, 01:45 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Alerts Table -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Alerts</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="text-left py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
+                                        <th class="text-left py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
+                                        <th class="text-left py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alerts-table-body">
+                                    <!-- Alerts will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        });
+
+        // Simulate live data updates
+        function updateMetrics() {
+            // Update metrics with random values to simulate live data
+            const totalArea = document.getElementById('total-area');
+            const activeSensors = document.getElementById('active-sensors');
+            const anomalies = document.getElementById('anomalies');
+            
+            // Simulate small fluctuations in data
+            const areaValue = 1247 + Math.floor(Math.random() * 10) - 5;
+            totalArea.textContent = `${areaValue} km²`;
+            
+            const sensorValue = 342 + Math.floor(Math.random() * 6) - 3;
+            activeSensors.textContent = sensorValue;
+            
+            const anomalyValue = 12 + Math.floor(Math.random() * 4) - 2;
+            anomalies.textContent = Math.max(0, anomalyValue);
+        }
+
+        // Initialize and update soil moisture chart
+        let soilMoistureChart;
+        function initSoilMoistureChart() {
+            const ctx = document.getElementById('soilMoistureChart').getContext('2d');
+            
+            // Initial data
+            const labels = Array.from({length: 20}, (_, i) => `${i+1}s`);
+            const data = Array.from({length: 20}, () => Math.floor(Math.random() * 20) + 30);
+            
+            soilMoistureChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Soil Moisture (%)',
+                        data: data,
+                        borderColor: '#339d63',
+                        backgroundColor: 'rgba(51, 157, 99, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 20,
+                            max: 60
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update chart with new data
+        function updateSoilMoistureChart() {
+            if (soilMoistureChart) {
+                // Remove first data point and add new one
+                soilMoistureChart.data.labels.push(`${soilMoistureChart.data.labels.length+1}s`);
+                soilMoistureChart.data.labels.shift();
+                
+                soilMoistureChart.data.datasets[0].data.push(Math.floor(Math.random() * 20) + 30);
+                soilMoistureChart.data.datasets[0].data.shift();
+                
+                soilMoistureChart.update();
+            }
+        }
+
+        // Populate alerts table
+        function populateAlertsTable() {
+            const alerts = [
+                { timestamp: '2023-06-15 14:32', severity: 'High', description: 'Unusual temperature spike detected' },
+                { timestamp: '2023-06-15 11:15', severity: 'Medium', description: 'Soil moisture below threshold' },
+                { timestamp: '2023-06-14 16:45', severity: 'Low', description: 'Sensor #247 connectivity issue' },
+                { timestamp: '2023-06-14 09:20', severity: 'High', description: 'Water quality anomaly detected' },
+                { timestamp: '2023-06-13 18:30', severity: 'Medium', description: 'Air quality index elevated' }
+            ];
+            
+            const tableBody = document.getElementById('alerts-table-body');
+            tableBody.innerHTML = '';
+            
+            alerts.forEach(alert => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-100';
+                
+                let severityClass = '';
+                if (alert.severity === 'High') severityClass = 'bg-red-100 text-red-800';
+                else if (alert.severity === 'Medium') severityClass = 'bg-yellow-100 text-yellow-800';
+                else severityClass = 'bg-blue-100 text-blue-800';
+                
+                row.innerHTML = `
+                    <td class="py-3 text-sm text-gray-500">${alert.timestamp}</td>
+                    <td class="py-3">
+                        <span class="px-2 py-1 text-xs rounded-full ${severityClass}">${alert.severity}</span>
+                    </td>
+                    <td class="py-3 text-sm text-gray-700">${alert.description}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initSoilMoistureChart();
+            populateAlertsTable();
+            
+            // Update metrics and chart every 3 seconds
+            setInterval(() => {
+                updateMetrics();
+                updateSoilMoistureChart();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

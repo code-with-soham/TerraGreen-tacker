@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Chat - TerraGreen Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'terragreen': {
+                            50: '#f0f9f4',
+                            100: '#dcf2e3',
+                            200: '#bce5ca',
+                            300: '#8dd2a6',
+                            400: '#57b87e',
+                            500: '#339d63',
+                            600: '#25804f',
+                            700: '#1e6641',
+                            800: '#1a5135',
+                            900: '#16422d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+        .chat-container {
+            height: calc(100vh - 140px);
+        }
+        .messages-container {
+            height: calc(100% - 80px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar bg-white w-64 shadow-md fixed h-full z-40 md:relative md:translate-x-0">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center">
+                    <img src="./logo.png" alt="TerraGreen Tracker" srcset="">
+                </div>
+            </div>
+            
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="index.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-home mr-3"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dashboard.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analytics.html" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                            <i class="fas fa-chart-bar mr-3"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="chatbot.html" class="flex items-center p-3 bg-terragreen-50 text-terragreen-600 rounded-lg">
+                            <i class="fas fa-robot mr-3"></i>
+                            <span>Support Chat</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3 px-3">Account</h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-user mr-3"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-cog mr-3"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center p-3 text-gray-600 hover:bg-terragreen-50 hover:text-terragreen-600 rounded-lg transition-colors">
+                                <i class="fas fa-sign-out-alt mr-3"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden md:ml-0">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-600 mr-4">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold text-gray-800">Support Chat</h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2">
+                            S
+                        </div>
+                        <span class="text-gray-700">Soham</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-hidden p-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 h-full flex flex-col">
+                    <!-- Chat Header -->
+                    <div class="p-4 border-b border-gray-200 flex items-center">
+                        <div class="w-10 h-10 bg-terragreen-100 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-robot text-terragreen-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">TerraGreen Support Bot</h3>
+                            <p class="text-xs text-green-600 flex items-center">
+                                <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                                Online
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages Container -->
+                    <div class="messages-container overflow-y-auto p-4 flex-1">
+                        <div class="space-y-4" id="chat-messages">
+                            <!-- Bot welcome message -->
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
+                                    <p class="text-gray-800">Hello! I'm the TerraGreen Support Bot. How can I assist you with your environmental monitoring needs today?</p>
+                                    <p class="text-xs text-gray-500 mt-2">10:00 AM</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Bot quick options -->
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
+                                    <p class="text-gray-800 mb-2">You can ask me about:</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Sensor issues</button>
+                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Data interpretation</button>
+                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Account settings</button>
+                                        <button class="quick-option px-3 py-1 bg-white border border-terragreen-200 text-terragreen-600 rounded-full text-xs hover:bg-terragreen-50 transition-colors">Billing questions</button>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">10:01 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="p-4 border-t border-gray-200">
+                        <div class="flex space-x-2">
+                            <input type="text" id="message-input" placeholder="Type your message here..." class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
+                            <button id="send-button" class="px-4 py-3 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-center">TerraGreen Support Bot is powered by AI and may occasionally provide inaccurate information.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        });
+
+        // Chat functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const chatMessages = document.getElementById('chat-messages');
+            const quickOptions = document.querySelectorAll('.quick-option');
+            
+            // Function to add a message to the chat
+            function addMessage(text, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex items-start ${isUser ? 'justify-end' : ''}`;
+                
+                if (isUser) {
+                    messageDiv.innerHTML = `
+                        <div class="bg-terragreen-500 text-white rounded-lg p-3 max-w-xs md:max-w-md">
+                            <p>${text}</p>
+                            <p class="text-xs text-terragreen-100 mt-2">${getCurrentTime()}</p>
+                        </div>
+                        <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 bg-terragreen-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-robot text-terragreen-600 text-sm"></i>
+                        </div>
+                        <div class="bg-gray-100 rounded-lg p-3 max-w-xs md:max-w-md">
+                            <p class="text-gray-800">${text}</p>
+                            <p class="text-xs text-gray-500 mt-2">${getCurrentTime()}</p>
+                        </div>
+                    `;
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+            
+            // Function to get current time in HH:MM format
+            function getCurrentTime() {
+                const now = new Date();
+                return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Function to scroll to the bottom of the chat
+            function scrollToBottom() {
+                const messagesContainer = document.querySelector('.messages-container');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Function to simulate bot response
+            function sendBotResponse(userMessage) {
+                // Simple response logic - in a real app, this would connect to a backend
+                let response = "Thank you for your query. I am connecting you to our knowledge base...";
+                
+                if (userMessage.toLowerCase().includes('sensor')) {
+                    response = "I can help with sensor issues. Common problems include connectivity, calibration, or power supply. Would you like me to run a diagnostic on your sensors?";
+                } else if (userMessage.toLowerCase().includes('data') || userMessage.toLowerCase().includes('analytics')) {
+                    response = "For data interpretation questions, I recommend checking our documentation on metric definitions. You can also contact our data science team for complex analysis requests.";
+                } else if (userMessage.toLowerCase().includes('account')) {
+                    response = "Account settings can be adjusted in the profile section. If you're having trouble accessing your account, I can help reset your password or escalate to our support team.";
+                } else if (userMessage.toLowerCase().includes('billing')) {
+                    response = "For billing inquiries, I can show you your current subscription details or connect you with our billing department for specific questions about charges or invoices.";
+                }
+                
+                // Simulate typing delay
+                setTimeout(() => {
+                    addMessage(response, false);
+                }, 1000);
+            }
+            
+            // Send message when button is clicked
+            sendButton.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    messageInput.value = '';
+                    sendBotResponse(message);
+                }
+            });
+            
+            // Send message when Enter key is pressed
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+            
+            // Quick option buttons
+            quickOptions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const optionText = this.textContent;
+                    addMessage(optionText, true);
+                    sendBotResponse(optionText);
+                });
+            });
+            
+            // Initial scroll to bottom
+            scrollToBottom();
+        });
+    </script>
+</body>
+</html>
