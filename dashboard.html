@@ -125,10 +125,46 @@
                     </button>
                     
                     <div class="relative">
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
+                        <button id="notification-button" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
                             <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                         </button>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        <!-- Notification Panel -->
+                        <div id="notification-panel" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-lg border dark:border-gray-700 overflow-hidden">
+                            <div class="p-4 border-b dark:border-gray-700">
+                                <h3 class="font-semibold text-gray-800 dark:text-white">Notifications</h3>
+                            </div>
+                            <div class="divide-y dark:divide-gray-700">
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-red-500 dark:text-red-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>High Risk Alert:</strong> Potential deforestation detected in Sector G-7.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">15 minutes ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-wifi-slash text-yellow-500 dark:text-yellow-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>Sensor Offline:</strong> Sensor #247 in the northern ridge is not responding.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">2 hours ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-cloud-download-alt text-blue-500 dark:text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>Report Ready:</strong> Your weekly summary for the Amazon Basin is ready for download.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">1 day ago</p>
+                                    </div>
+                                </a>
+                            </div>
+                             
+                        </div>
                     </div>
                     <div class="flex items-center">
                         <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">
@@ -416,6 +452,21 @@
             soilMoistureChart.data.datasets[0].data.shift();
             soilMoistureChart.update('quiet');
         }
+
+        // --- Notification Panel ---
+        const notificationButton = document.getElementById('notification-button');
+        const notificationPanel = document.getElementById('notification-panel');
+
+        notificationButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!notificationPanel.contains(e.target) && !notificationButton.contains(e.target)) {
+                notificationPanel.classList.add('hidden');
+            }
+        });
 
         // --- Page Initialization ---
         document.addEventListener('DOMContentLoaded', function() {

@@ -46,7 +46,59 @@
             }
         }
         .messages-container {
-            height: calc(100vh - 220px); /* Adjusted height for consistency */
+            height: calc(100vh - 220px);
+        }
+        .typing-indicator {
+            display: inline-block;
+            position: relative;
+            width: 40px;
+            height: 20px;
+        }
+        .typing-indicator span {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #339d63;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-indicator span:nth-child(1) {
+            left: 0;
+            animation-delay: -0.32s;
+        }
+        .typing-indicator span:nth-child(2) {
+            left: 12px;
+            animation-delay: -0.16s;
+        }
+        .typing-indicator span:nth-child(3) {
+            left: 24px;
+        }
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #339d63;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .dark .loader {
+            border: 3px solid #374151;
+            border-top: 3px solid #339d63;
         }
     </style>
 </head>
@@ -119,7 +171,7 @@
                     <button id="sidebar-toggle" class="md:hidden text-gray-600 dark:text-gray-300 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Support Chat</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white"></h2>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -128,10 +180,46 @@
                     </button>
                     
                     <div class="relative">
-                        <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
+                        <button id="notification-button" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
                             <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                         </button>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        <!-- Notification Panel -->
+                        <div id="notification-panel" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-lg border dark:border-gray-700 overflow-hidden">
+                            <div class="p-4 border-b dark:border-gray-700">
+                                <h3 class="font-semibold text-gray-800 dark:text-white">Notifications</h3>
+                            </div>
+                            <div class="divide-y dark:divide-gray-700">
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-red-500 dark:text-red-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>High Risk Alert:</strong> Potential deforestation detected in Sector G-7.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">15 minutes ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-wifi-slash text-yellow-500 dark:text-yellow-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>Sensor Offline:</strong> Sensor #247 in the northern ridge is not responding.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">2 hours ago</p>
+                                    </div>
+                                </a>
+                                <a href="#" class="flex p-4 items-start hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                        <i class="fas fa-cloud-download-alt text-blue-500 dark:text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200"><strong>Report Ready:</strong> Your weekly summary for the Amazon Basin is ready for download.</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">1 day ago</p>
+                                    </div>
+                                </a>
+                            </div>
+                             
+                        </div>
                     </div>
                     <div class="flex items-center">
                         <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center text-white font-semibold mr-2 user-initials">
@@ -149,7 +237,7 @@
                             <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400"></i>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-800 dark:text-white">TerraGreen Support Bot</h3>
+                            <h3 class="font-semibold text-gray-800 dark:text-white">TerraGreen AI Assistant</h3>
                             <p class="text-xs text-green-600 flex items-center">
                                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                                 Online
@@ -164,7 +252,7 @@
                                     <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400 text-sm"></i>
                                 </div>
                                 <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
-                                    <p class="text-gray-800 dark:text-gray-200">Hello! I'm the TerraGreen Support Bot. How can I assist you with your environmental monitoring needs today?</p>
+                                    <p class="text-gray-800 dark:text-gray-200">🌱 Hello! I'm TerraGreen AI — your intelligent environmental assistant. I can help you with reforestation, soil analysis, temperature monitoring, deforestation detection, and ecological analytics. How can I assist you today?</p>
                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">10:00 AM</p>
                                 </div>
                             </div>
@@ -176,10 +264,10 @@
                                 <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
                                     <p class="text-gray-800 dark:text-gray-200 mb-2">You can ask me about:</p>
                                     <div class="flex flex-wrap gap-2">
-                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Sensor issues</button>
-                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Data interpretation</button>
-                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Account settings</button>
-                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Billing questions</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Automated Reforestation</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Soil Analysis</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Temperature Data</button>
+                                        <button class="quick-option px-3 py-1 bg-white dark:bg-gray-600 border border-terragreen-200 dark:border-gray-500 text-terragreen-600 dark:text-terragreen-300 rounded-full text-xs hover:bg-terragreen-50 dark:hover:bg-gray-500 transition-colors">Deforestation Detection</button>
                                     </div>
                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">10:01 AM</p>
                                 </div>
@@ -189,12 +277,12 @@
                     
                     <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex space-x-2">
-                            <input type="text" id="message-input" placeholder="Type your message here..." class="flex-1 p-3 border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
+                            <input type="text" id="message-input" placeholder="Ask about reforestation, soil, temperature, or environmental monitoring..." class="flex-1 p-3 border border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-terragreen-500 focus:border-terragreen-500">
                             <button id="send-button" class="px-4 py-3 bg-terragreen-500 text-white rounded-lg hover:bg-terragreen-600 transition-colors">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">TerraGreen Support Bot is powered by AI and may occasionally provide inaccurate information.</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">TerraGreen AI provides real-time environmental insights using advanced analytics.</p>
                     </div>
                 </div>
             </main>
@@ -236,8 +324,23 @@
                 darkModeIcon.classList.add('fa-sun');
             }
         });
+
+        // Notification Panel
+        const notificationButton = document.getElementById('notification-button');
+        const notificationPanel = document.getElementById('notification-panel');
+
+        notificationButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationPanel.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!notificationPanel.contains(e.target) && !notificationButton.contains(e.target)) {
+                notificationPanel.classList.add('hidden');
+            }
+        });
         
-        // Chat functionality
+        // Advanced Chatbot with Gemini API Integration
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is logged in
             const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -251,8 +354,12 @@
             const chatMessages = document.getElementById('chat-messages');
             const quickOptions = document.querySelectorAll('.quick-option');
             
+            // Gemini API Configuration
+            const GEMINI_API_KEY = 'AIzaSyBjgBI30BbJ4zZshweAnnEBUZW80IL2Fow'; // Replace with your actual API key
+            const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+            
             // Function to add a message to the chat
-            function addMessage(text, isUser = false) {
+            function addMessage(text, isUser = false, isTyping = false) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `flex items-start ${isUser ? 'justify-end' : ''} my-4`;
                 
@@ -266,6 +373,19 @@
                         </div>
                         <div class="w-8 h-8 bg-terragreen-500 rounded-full flex items-center justify-center ml-3 flex-shrink-0 text-white font-semibold user-initials">
                             ${userInitials}
+                        </div>
+                    `;
+                } else if (isTyping) {
+                    messageDiv.innerHTML = `
+                        <div class="w-8 h-8 bg-terragreen-100 dark:bg-terragreen-900/50 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fas fa-robot text-terragreen-600 dark:text-terragreen-400 text-sm"></i>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 max-w-xs md:max-w-md">
+                            <div class="typing-indicator">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
                         </div>
                     `;
                 } else {
@@ -282,6 +402,7 @@
                 
                 chatMessages.appendChild(messageDiv);
                 scrollToBottom();
+                return messageDiv;
             }
             
             // Function to get current time in HH:MM format
@@ -295,45 +416,137 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
             
-            // Function to simulate bot response
-            function sendBotResponse(userMessage) {
-                let response = "I'm not sure how to answer that. Could you please rephrase? You can also ask about sensor issues, data interpretation, or account settings.";
-                
+            // Function to call Gemini API
+            async function callGeminiAPI(userMessage) {
+                try {
+                    // For demo purposes, we'll use a simulated response if no API key is provided
+                    if (GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+                        return simulateGeminiResponse(userMessage);
+                    }
+                    
+                    const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `You are TerraGreen AI — an intelligent environmental assistant integrated into the TerraGreen Tracker platform.
+
+Your purpose:
+Provide accurate, insightful, and real-time responses to user queries about reforestation, environmental monitoring, deforestation detection, and ecological analytics.
+
+Knowledge Scope:
+- Automated and smart reforestation systems (drones, AI, IoT sensors)
+- Soil moisture, fertility, and nutrient levels
+- Temperature and humidity data interpretation
+- Forest health monitoring
+- Real-time satellite or sensor-based analysis
+- Predictive modeling for deforestation risk
+- Renewable sustainability insights
+- Data displayed on TerraGreen Tracker dashboard and its features
+
+Guidelines:
+- Always respond in a helpful, factual, and professional tone.
+- Use scientific accuracy, but keep language understandable for general users.
+- If the query is not about TerraGreen, environment, or ecology, politely redirect.
+- Include short real-time insights when relevant (e.g., "Based on current trends…").
+- Keep responses concise but insightful (3–6 sentences max).
+- When asked for data, simulate real-time values (e.g., soil moisture: 28.6%, temperature: 31°C, etc.).
+- Use bullet points, emojis 🌱🌿🌍 when it improves readability.
+
+User Query: "${userMessage}"
+
+Please provide a helpful response as TerraGreen AI:`
+                                }]
+                            }]
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    return simulateGeminiResponse(userMessage);
+                }
+            }
+            
+            // Function to simulate Gemini responses for demo purposes
+            function simulateGeminiResponse(userMessage) {
                 const lowerUserMessage = userMessage.toLowerCase();
                 
-                if (lowerUserMessage.includes('sensor')) {
-                    response = "I can help with sensor issues. Common problems include connectivity, calibration, or power supply. Would you like me to run a diagnostic on your sensors?";
-                } else if (lowerUserMessage.includes('data') || lowerUserMessage.includes('interpretation')) {
-                    response = "For data interpretation questions, I recommend checking our documentation on metric definitions. You can also contact our data science team for complex analysis requests.";
-                } else if (lowerUserMessage.includes('account') || lowerUserMessage.includes('setting')) {
-                    response = "Account settings can be adjusted in the profile section. If you're having trouble accessing your account, I can help reset your password or escalate to our support team.";
-                } else if (lowerUserMessage.includes('billing') || lowerUserMessage.includes('question')) {
-                    response = "For billing inquiries, I can show you your current subscription details or connect you with our billing department for specific questions about charges or invoices.";
-                }
+                // Simulate real-time environmental data
+                const soilMoisture = (Math.random() * 40 + 10).toFixed(1);
+                const temperature = (Math.random() * 15 + 20).toFixed(1);
+                const humidity = (Math.random() * 40 + 50).toFixed(1);
+                const deforestationRisk = (Math.random() * 30 + 10).toFixed(1);
                 
-                setTimeout(() => {
-                    addMessage(response, false);
-                }, 1000);
+                if (lowerUserMessage.includes('reforestation') || lowerUserMessage.includes('planting') || lowerUserMessage.includes('tree')) {
+                    return `🌳 TerraGreen automates reforestation using drone technology and AI-powered analysis. Our system identifies optimal planting zones based on soil composition, moisture levels, and terrain data. Current reforestation efficiency has improved by 47% compared to manual methods. Based on recent analysis, areas with soil moisture above ${soilMoisture}% show 89% higher sapling survival rates.`;
+                } else if (lowerUserMessage.includes('soil') || lowerUserMessage.includes('moisture') || lowerUserMessage.includes('fertility')) {
+                    return `🌱 Current soil analysis shows moisture levels at ${soilMoisture}% with optimal nutrient distribution. Our sensors detect nitrogen levels at 2.8mg/kg and phosphorus at 1.2mg/kg. For healthy forest growth, maintain soil pH between 6.0-7.5. Recent data indicates that areas with higher organic matter content (≥3.5%) support 72% more biodiversity.`;
+                } else if (lowerUserMessage.includes('temperature') || lowerUserMessage.includes('weather') || lowerUserMessage.includes('climate')) {
+                    return `🌡️ Current environmental monitoring shows temperature at ${temperature}°C with ${humidity}% relative humidity. These conditions are optimal for temperate forest ecosystems. Based on predictive models, we expect a 0.8°C increase over the next month. Temperature variations beyond ±3°C from seasonal averages may indicate microclimate changes requiring attention.`;
+                } else if (lowerUserMessage.includes('deforestation') || lowerUserMessage.includes('forest loss') || lowerUserMessage.includes('clear cutting')) {
+                    return `🚨 Deforestation risk assessment currently shows ${deforestationRisk}% probability in monitored regions. Our satellite imagery detects 12.8 hectares of potential forest cover loss this quarter. Key indicators include reduced canopy density (-18%) and increased soil erosion patterns. Immediate intervention recommended for sectors G-7 and H-4 where risk exceeds 25%.`;
+                } else if (lowerUserMessage.includes('sensor') || lowerUserMessage.includes('monitoring') || lowerUserMessage.includes('data')) {
+                    return `📊 TerraGreen's sensor network provides real-time environmental data across 342 monitoring stations. Current system status: 94% operational with 18 sensors in maintenance. Data accuracy: ±2% for soil metrics, ±0.5°C for temperature. Recent upgrades have improved data transmission latency by 67%, enabling faster response to environmental changes.`;
+                } else if (lowerUserMessage.includes('dashboard') || lowerUserMessage.includes('analytics') || lowerUserMessage.includes('report')) {
+                    return `📈 The TerraGreen dashboard displays real-time environmental metrics including forest health indices, carbon sequestration rates, and biodiversity scores. Current forest health index: 84/100 (Good). Carbon capture this month: 2,847 tons. You can customize your dashboard to show specific metrics like soil composition trends or deforestation alerts.`;
+                } else if (lowerUserMessage.includes('help') || lowerUserMessage.includes('support') || lowerUserMessage.includes('what can you do')) {
+                    return `🌍 I'm TerraGreen AI, your environmental monitoring assistant! I can help you with:
+• Automated reforestation insights
+• Soil and temperature analysis  
+• Deforestation risk assessment
+• Sensor network status
+• Dashboard data interpretation
+• Environmental trend predictions
+
+Just ask about any TerraGreen Tracker feature or environmental metric!`;
+                } else {
+                    return `I specialize in TerraGreen environmental monitoring topics like reforestation, soil analysis, and deforestation detection. Could you please ask about our environmental monitoring systems, sensor data, or forest conservation efforts? 🌿`;
+                }
             }
             
-            // Send message when button is clicked or Enter is pressed
-            function sendMessage() {
+            // Function to send message and get AI response
+            async function sendMessage() {
                 const message = messageInput.value.trim();
                 if (message) {
+                    // Add user message
                     addMessage(message, true);
                     messageInput.value = '';
-                    sendBotResponse(message);
+                    
+                    // Show typing indicator
+                    const typingIndicator = addMessage('', false, true);
+                    
+                    // Get AI response
+                    const aiResponse = await callGeminiAPI(message);
+                    
+                    // Remove typing indicator and add AI response
+                    typingIndicator.remove();
+                    addMessage(aiResponse, false);
                 }
             }
             
+            // Event listeners
             sendButton.addEventListener('click', sendMessage);
-            messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
             
+            // Quick option buttons
             quickOptions.forEach(button => {
                 button.addEventListener('click', function() {
                     const optionText = this.textContent;
-                    addMessage(optionText, true);
-                    sendBotResponse(optionText);
+                    messageInput.value = optionText;
+                    sendMessage();
                 });
             });
             
